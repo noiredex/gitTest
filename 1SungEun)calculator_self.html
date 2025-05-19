@@ -1,0 +1,206 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>이성은 계산기만들기</title>
+    </head>
+    <style>
+        /* 
+        문제1: 버튼이 일렬로 생성됐는데 왜그런지 모르겠음---> 고침
+        문제2: 연산자 색이 주황으로 하고 싶은데 색반전이 됨... 
+        문제3: 계산기가 중앙정렬이 안됨..--> 고침
+        문제4: 계산기 밑에 여백이 왜 있는건지 모르겠음..*/
+        /*  CSS
+        border-radius: 테두리 둥글게
+        1. 계산기외관: calculator 
+        2. 결과지: display
+        3. 버튼 첫 줄(귤색): button
+        4. 버튼 둘째 줄(검정색,귤색): button
+        5. 버튼 셋째 줄(검정색,귤색): button
+        6. 버튼 넷째 줄(검정색): button */
+        /* 
+        script
+        1. 결과지: display
+        2. 연산버튼: 1
+        3. 숫자버튼: 2 */
+    .container {
+    margin: 100px auto;
+    width: 300px;
+    height: 400px;
+     border: 1px solid transparent;
+    background-color:  rgb(84, 84, 84);
+    border-radius: 5px;
+    }
+
+    .calculator {
+     height: 20px;
+    text-align: right;
+    }
+
+    .display {
+    display: flex;
+    flex-direction: column;
+    height: 50px;
+    font-size: 36px;
+    font-weight: 700;
+    border: 1px solid rgb(84, 84, 84);
+    margin: 5px 5px 0 5px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: rgb(162, 159, 155);
+    color: #fff;
+    }
+
+    .buttons {
+    padding: 5px;
+    display: grid;
+    height: calc(100% - 85px);
+    gap: 5px;
+    grid-template-columns: repeat(4, 1fr);
+    }
+
+    button {
+    color: #fff;
+    font-size: 36px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    wrap {
+        display: grid;
+        /* 정렬이 계산기 모양으로 왜 안되는거지.. --->해결*/
+        grid-template-columns: repeat(4, 1fr);
+        }
+    }
+
+    .two {
+        background-color: #7b7b7b;
+    }
+    .controll,
+    .three,
+    .four
+    .one {
+    background-color: rgb(255, 183, 0);
+    }
+    </style>
+    
+    <body>
+        <main>
+            <div class="container">
+                <div class="calculator">
+                    <div class="display">0</div>
+                    <div class="controll">
+            <!-- class를 이용해 버튼 만들기 -->
+            <!-- 해당 버튼속성은 잘 몰라서 구글링으로 참조함 -->
+            <!-- 디자인은 휴대폰(아이폰)계산기를 참고 -->
+            <!-- 기본사칙연산만 -->
+                    <div class="buttons">
+                        <button class="one">C</button>
+                        <button class="one">+</button>
+                        <button class="one">-</button>
+                        <button class="one">x</button>
+                    </div>
+                    <div class="buttons">
+                        <button class="two">7</button>
+                        <button class="two">8</button>
+                        <button class="two">9</button>
+                        <button class="three">/</button>
+                    </div>
+                    <div class="buttons">
+                        <button class="two">4</button>
+                        <button class="two">5</button>
+                        <button class="two">6</button>
+                        <button class="four">=</button>
+                    </div>
+                    <div class="buttons">
+                        <button class="two">1</button>
+                        <button class="two">2</button>
+                        <button class="two">3</button>
+                        <button class="two">0</button>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <script>
+        const buttons = document.querySelectorAll('button');
+        const displayElement = document.querySelector('.display');
+
+            // class를 이용해 만들기
+            // if "사칙연산" 버튼을 누른다면 결과는 = else 버튼-연산자-버튼 순서가 아니라면 결과가 나오지 않음? 함수로 만들기 또는 if 안에 else if로 한번에 만들기
+            // class "사칙연산" 버튼을 누른다면 결과는 = 아니라면 break?
+            // 처음에 배웠던 form을 써야하나 고민?? 결과를 제출하고 거기서 연산을 한 뒤 결과만 display에 띄우는??
+            // 문제: 버튼이 안눌림..-->해결-->해결안됨,, 마우스 포인터만 바뀜
+            // 오타수정완료
+            class SimpleCalculator {
+            constructor(displayElement) {
+                // 빈 결과화면 만들기
+                this.displayElement = displayElement;
+                // 첫번째 숫자
+                this.firstOperand = null;
+                // 사칙연산 선택
+                this.operator = null;
+                // 입력한 숫자를 저장
+                this.currentInput = '0';
+                // 디스플레이 업데이트-> 마지막에 계속 넣어야 하나?
+                this.updateDisplay();
+            }
+        }
+        // 오류 날까봐 한 번 더 업데이트 입력하는 함수 넣기    
+        updateDisplay() {
+                this.displayElement.textContent = this.currentInput;
+            }
+        // c 눌렀을때 모든 값 clar(초기화)하기
+            clear() {
+                this.currentInput = '0';
+                this.firstOperand = null;
+                this.operator = null;
+                this.waitingForSecondOperand = false;
+                this.updateDisplay();
+            }
+        // = 결과 눌럿을 때 결과가 나올 수 있게 입력받은 값을 사용자가 누른 사직연산에 대입해 결과나타내기 
+            calculateResult() {
+                // 사칙연산 클릭과 두 번째 숫자가 있어야 계산 가능
+                // waitingForSecondOperand: 입력 할 때 까지 기다려.
+                if (this.operator && !this.waitingForSecondOperand) {
+                    const result = this.calculate(this.firstOperand, parseFloat(this.currentInput), this.operator);
+                    this.currentInput = String(result);
+                    this.firstOperand = result;
+                    this.operator = null;
+                    this.waitingForSecondOperand = false;
+                    this.updateDisplay();
+                }
+            }
+            // 계산기가 직접 계산을 실행하는 함수
+            calculate(num1, num2, op) {
+                if (op === '+') return num1 + num2;
+                if (op === '-') return num1 - num2;
+                if (op === 'x') return num1 * num2;
+                if (op === '/') return num1 / num2;
+                // 연산을 실행할 두번째 숫자 미입력 시 아무동작X
+                return num2; 
+            }
+         const calculator = new SimpleCalculator(displayElement);
+
+        // 각 버튼에 이벤트 리스너 연결
+        buttons.forEach(button => {
+            button.addEventListener('click', () => {
+                const value = button.textContent;
+                if (/[0-9]/.test(value)) { // 숫자 버튼
+                    calculator.inputDigit(value);
+                } else if (['+', '-', 'x', '/'].includes(value)) { // 연산자 버튼
+                    calculator.inputOperator(value);
+                } else if (value === 'C') { // Clear 버튼
+                    calculator.clear();
+                } else if (value === '=') { // Equal 버튼
+                    calculator.calculateResult();
+                }
+            });
+        });
+        
+        // 계산이 왜 안되는거지
+        // 버튼이 안눌림...
+
+        </script>
+    </body>
+    </html>
